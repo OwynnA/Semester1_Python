@@ -1,0 +1,38 @@
+float $size = rand(1,6);
+int $repeat = rand(2,6);
+float $height = $size;
+
+
+//generate first sphere
+polySphere -radius $size -subdivisionsX 20 -subdivisionsY 20 -axis 0 1 0 -createUVs 2 -constructionHistory 1;
+move -r 0 $size 0 ; 
+
+for( $i=0; $i<$repeat; ++$i)
+{
+    //generate rest of body
+    polySphere -radius ($size*.666) -subdivisionsX 20 -subdivisionsY 20 -axis 0 1 0 -createUVs 2 -constructionHistory 1;
+    move -r 0 ($height+ ($size*1.33)) 0 ;
+    $height = $height + ($size*1.33);
+    $size *=0.666; 
+}
+//eyes
+$size *=0.6;
+polySphere -radius 1 -subdivisionsX 20 -subdivisionsY 20 -axis 0 1 0 -createUVs 2 -constructionHistory 1;
+scale -relative (0.436*$size) (0.436*$size) (0.129*$size);
+move -relative (-0.859*$size) ($height+($size/2)) 0;
+move -relative 0 0 (2.205*($size/1.6));
+rotate -relative -objectSpace -forceOrderXYZ 0 -19.706 0 ;
+
+polySphere -radius 1 -subdivisionsX 20 -subdivisionsY 20 -axis 0 1 0 -createUVs 2 -constructionHistory 1;
+scale -relative (0.436*$size) (0.436*$size) (0.129*$size);
+move -relative (0.859*$size) ($height+($size/2)) 0;
+move -relative 0 0 (2.205*($size/1.6));
+rotate -relative -objectSpace -forceOrderXYZ 0 19.706 $size ;
+
+//the nose
+polyCone -radius 0.6 -height 1.5 -subdivisionsX 20 -subdivisionsY 1 -subdivisionsZ 0 -axis 0 1 0 -roundCap 0 -createUVs 3 -constructionHistory 1;
+rotate -relative -objectSpace -forceOrderXYZ 90 0 0 ;
+move -relative 0 $height ($size*1.75);
+scale -relative $size $size $size;
+
+

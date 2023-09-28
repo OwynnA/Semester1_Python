@@ -1,0 +1,30 @@
+proc GenerateStaircase(float $supportRadius, float $stairLength, float $stairHeight, float $stairWidth, float $pivot, int $stairNum, float $stairSpace, float $angle, int $createSupport)
+{
+    float $staircaseHeight = $stairHeight;
+    //create first stair
+    polyCube -w $stairLength -h $stairHeight -d $stairWidth -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 -ch 1;
+    move -r $pivot ($stairHeight/2) 0 ;
+    move -r ($pivot* -1) ($stairHeight/2) 0 pCube1.scalePivot pCube1.rotatePivot ;
+    //got the string lines from chatGPT
+    //copy selected object
+    string $selectedObjects[] = `ls -sl`;
+    
+    for($i = 0; $i <= $stairNum; $i++)
+    {
+        //create the rest of the stairs
+        string $selectedObjects[] = `ls -sl`;
+        string $copiedObjects[] = `duplicate -rr $selectedObjects`;
+        rotate -r - os - fo 0 ($angle) 0;
+        move -r 0 ($stairSpace + $stairHeight) 0 ;
+        $staircaseHeight += $stairSpace + $stairHeight;
+        $selectedObjects = `ls -sl`;
+    }
+     //create support
+    if($createSupport == 1)
+    {
+    polyCylinder -r $supportRadius -h $staircaseHeight -sx 20 -sy 1 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+    move -r 0 ($staircaseHeight/2) 0 ;
+    }
+}
+
+GenerateStaircase(.5, 6, .25, 2, 5, 20, 0, 20, 0);
