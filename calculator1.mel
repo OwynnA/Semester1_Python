@@ -1,0 +1,81 @@
+proc add(float $input[])
+{
+    float $sum;
+    for($i = 0; $i <= (size($input)-1); $i++)
+    {
+        $sum += $input[$i];
+    }
+    print("The sum of these number is " + $sum + "!\n");
+
+}
+add({3,2,1});
+
+proc subtract(float $input[])
+{
+    float $difference = $input[0];
+    for($i = 1; $i <= (size($input)-1); $i++)
+    {
+        $difference -= $input[$i];
+    }
+    print("The difference of these number is " + $difference + "!\n");
+}
+subtract({3,2,1});
+
+proc division(float $input[])
+{
+    float $quotient = $input[0];   
+    for($i = 1; $i <= (size($input)-1); $i++)
+    {
+        $quotient /= $input[$i];
+    }
+    print("The quotient of these number is " + $quotient + "!\n");
+}
+division({3,2,1});
+
+proc multiply(float $input[])
+{
+    float $product = $input[0];   
+    for($i = 1; $i <= (size($input)-1); $i++)
+    {
+        $product *= $input[$i];
+    }
+    print("The product of these number is " + $product + "!\n");
+
+}
+multiply({3,2,1});
+
+proc mean(float $input[])
+{
+    float $sum;
+    for($i = 0; $i <= (size($input)-1); $i++)
+    {
+        $sum += $input[$i];
+    }
+    $sum /= 2;
+    print("The mean of these number is " + $sum + "!\n");
+}
+mean({3,2,1});
+
+proc median(float $input[])
+{
+    float $sum;
+    int $spot;
+    int $spot2;
+    float $sortedInput[] = `sort $input`;
+    int $even = size($input) % 2;
+    if ($even == 1)
+    {
+        $spot = size($input) / 2;
+        $sum = $input[$spot];
+        print("The sum of these median is " + $sum + "!\n");
+    }
+    else
+    {
+        $spot = size($input) / 2;
+        $spot2 = $spot - 1;
+        $sum = ($sortedInput[$spot] + $sortedInput[$spot2]) / 2;
+        print("The median of these number is " + $sum + "!\n");
+    }
+
+}
+median({3,5,1,4});
