@@ -44,6 +44,17 @@ proc multiply(float $input[])
 }
 multiply({3,2,1});
 
+proc power(float $input, int $exponent)
+{
+    float $product = $input;
+    for($i = 1; $i <= $exponent - 1; $i++)
+    {
+        $product *= $input;
+    }
+    print($input + " raised to the " + $exponent + " power is " + $product +"!\n");
+}
+power(2,3);
+
 proc mean(float $input[])
 {
     float $sum;
