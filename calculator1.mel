@@ -62,7 +62,7 @@ proc mean(float $input[])
     {
         $sum += $input[$i];
     }
-    $sum /= 2;
+    $sum /= size($input);
     print("The mean of these number is " + $sum + "!\n");
 }
 mean({3,2,1});
