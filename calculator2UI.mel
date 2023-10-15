@@ -192,4 +192,9 @@ proc calculator(float $input[], int $exponent, int $opperation)
         print("You have input an invalid opperation. Please try again. \n 0 = addition \n 1 = subtraction \n 2 = division \n 3 = mulitiplication \n 4 = powers \n 5 = mean \n 6 = median \n");
     }
 }
-calculator({8,3,7,5,4,9},3,6);
+//calculator({8,3,7,5,4,9},3,6);
+
+global string $mWindow = `window -title "Calculator" -widthHeight 300 400;
+global string $mcolumn = `columnLayout - parent $mWindow-adjustableColumn 1`;
+optionVar -stringValue "ftNameField" `textField -parent $mColumn -placeHolderText "0"`;
+optionVar -stringValue 

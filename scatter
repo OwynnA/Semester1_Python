@@ -1,0 +1,54 @@
+proc randomScatter(int $duplicate, float $xMin, float $xMax, float $yMin, float $yMax, float $zMin, float $zMax)
+{
+    // Store object(s) name as variable
+    string $sels[] = `ls -selection`;
+
+    // Loop through each object selection
+    for ($i = 0; $i < size($sels); $i++)
+    {
+        // Perform actions for each individual object
+        for ($j = 0; $j < $duplicate; $j++)
+        {
+            // Duplicate current object
+            string $dups[] = `duplicate -rr $sels[$i]`;
+            string $dup = $dups[0];
+
+            // Generate new x, y, and z values based on range arguments
+            float $randX = `rand $xMin $xMax`;
+            float $randY = `rand $yMin $yMax`;
+            float $randZ = `rand $zMin $zMax`;
+
+            // Translate current object to the new position
+            xform -worldSpace -translation $randX $randY $randZ $dup;
+        }
+    }
+}
+
+global string $mWindow;
+global string $mColumn;
+
+if (`window -exists $mWindow`)
+{
+    deleteUI $mWindow;
+}
+//randomScatter(5, -10, 30, -5, 20, -100, 100);
+
+$mWindow = `window -title "Random Scatter" -widthHeight 300 400`;
+$mColumn = `columnLayout - parent $mWindow -adjustableColumn 1`;
+text -label "Number of Duplicates" -fn "boldLabelFont" -al "left";
+optionVar -stringValue "dup" `intField`;
+text -label "Minimum X Value" -fn "boldLabelFont" -al "left";
+optionVar -stringValue "xmin" `floatField`;
+text -label "Maximum X Value" -fn "boldLabelFont" -al "left";
+optionVar -stringValue "xmax" `floatField`;
+text -label "Minumum Y Value" -fn "boldLabelFont" -al "left";
+optionVar -stringValue "ymin" `floatField`;
+text -label "Maximum Y Value" -fn "boldLabelFont" -al "left";
+optionVar -stringValue "ymax" `floatField`;
+text -label "Minumum Z Value" -fn "boldLabelFont" -al "left";
+optionVar -stringValue "zmin" `floatField`;
+text -label "Maximum Z Value" -fn "boldLabelFont" -al "left";
+optionVar -stringValue "zmax" `floatField`;
+button -label "Scatter!";
+
+showWindow $mWindow;
