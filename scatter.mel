@@ -24,31 +24,62 @@ proc randomScatter(int $duplicate, float $xMin, float $xMax, float $yMin, float 
     }
 }
 
-global string $mWindow;
-global string $mColumn;
-
-if (`window -exists $mWindow`)
+global proc ButtonCmd()
 {
-    deleteUI $mWindow;
+    string $dupField = `optionVar -q "dup"`;
+    string $xMinField = `optionVar -q "xmin"`;
+    string $xMaxField = `optionVar -q "xmax"`;
+    string $yMinField = `optionVar -q "ymin"`;
+    string $yMaxField = `optionVar -q "ymax"`;
+    string $zMinField = `optionVar -q "zmin"`;
+    string $zMaxField = `optionVar -q "zmax"`;
+
+    string $dup = `intField -q -value $dupField`;
+    string $xMin = `floatField -q -value $xMinField`;
+    string $xMax = `floatField -q -value $xMaxField`;
+    string $yMin = `floatField -q -value $yMinField`;
+    string $yMax = `floatField -q -value $yMaxField`;
+    string $zMin = `floatField -q -value $zMinField`;
+    string $zMax = `floatField -q -value $zMaxField`;
+
+    randomScatter($dup, $xMin, $xMax, $yMin, $yMax, $zMin, $zMax);
+
+    print($dup + "\n");
+    print($xMin + "\n");
+    print($xMax + "\n");
+    print($yMin + "\n");
+    print($yMax + "\n");
+    print($zMin + "\n");
+    print($zMax + "\n");
 }
-//randomScatter(5, -10, 30, -5, 20, -100, 100);
 
-$mWindow = `window -title "Random Scatter" -widthHeight 300 400`;
-$mColumn = `columnLayout - parent $mWindow -adjustableColumn 1`;
-text -label "Number of Duplicates" -fn "boldLabelFont" -al "left";
-optionVar -stringValue "dup" `intField`;
-text -label "Minimum X Value" -fn "boldLabelFont" -al "left";
-optionVar -stringValue "xmin" `floatField`;
-text -label "Maximum X Value" -fn "boldLabelFont" -al "left";
-optionVar -stringValue "xmax" `floatField`;
-text -label "Minumum Y Value" -fn "boldLabelFont" -al "left";
-optionVar -stringValue "ymin" `floatField`;
-text -label "Maximum Y Value" -fn "boldLabelFont" -al "left";
-optionVar -stringValue "ymax" `floatField`;
-text -label "Minumum Z Value" -fn "boldLabelFont" -al "left";
-optionVar -stringValue "zmin" `floatField`;
-text -label "Maximum Z Value" -fn "boldLabelFont" -al "left";
-optionVar -stringValue "zmax" `floatField`;
-button -label "Scatter!";
+global proc ScatterUI()
+{
+    string $mWindow;
+    string $mColumn;
+    if (`window -exists $mWindow`)
+    {
+        deleteUI $mWindow;
+    }
 
-showWindow $mWindow;
+    $mWindow = `window -title "Random Scatter" -widthHeight 300 400`;
+    $mColumn = `columnLayout - parent $mWindow -adjustableColumn 1`;
+    text -label "Number of Duplicates" -fn "boldLabelFont" -al "left";
+    optionVar -stringValue "dup" `intField`;
+    text -label "Minimum X Value" -fn "boldLabelFont" -al "left";
+    optionVar -stringValue "xmin" `floatField`;
+    text -label "Maximum X Value" -fn "boldLabelFont" -al "left";
+    optionVar -stringValue "xmax" `floatField`;
+    text -label "Minumum Y Value" -fn "boldLabelFont" -al "left";
+    optionVar -stringValue "ymin" `floatField`;
+    text -label "Maximum Y Value" -fn "boldLabelFont" -al "left";
+    optionVar -stringValue "ymax" `floatField`;
+    text -label "Minumum Z Value" -fn "boldLabelFont" -al "left";
+    optionVar -stringValue "zmin" `floatField`;
+    text -label "Maximum Z Value" -fn "boldLabelFont" -al "left";
+    optionVar -stringValue "zmax" `floatField`;
+    button -label "Scatter!" -command "ButtonCmd";
+
+    showWindow $mWindow;
+}
+ScatterUI();
