@@ -1,3 +1,4 @@
+global int $otherOperations = 5;
 proc float add(float $input[])
 {
     float $sum;
@@ -8,44 +9,12 @@ proc float add(float $input[])
     return ($sum);
 
 }
-
-proc float subtract(float $input[])
+proc float power(float $input, int $exponent)
 {
-    float $difference = $input[0];
-    for($i = 1; $i <= (size($input)-1); $i++)
-    {
-        $difference -= $input[$i];
-    }
-    return ($difference);
-}
-
-proc float divide(float $input[])
-{
-    float $quotient = $input[0];   
-    for($i = 1; $i <= (size($input)-1); $i++)
-    {
-        $quotient /= $input[$i];
-    }
-    return ($quotient);
-}
-
-proc float multiply(float $input[])
-{
-    float $product = $input[0];   
-    for($i = 1; $i <= (size($input)-1); $i++)
-    {
-        $product *= $input[$i];
-    }
-    return ($product);
-
-}
-
-proc float power(float $input[], int $exponent)
-{
-    float $product = $input[0];
+    float $product = $input;
     for($i = 1; $i <= $exponent - 1; $i++)
     {
-        $product *= $input[0];
+        $product *= $input;
     }
     return ($product);
 }
@@ -80,121 +49,136 @@ proc float median(float $input[])
 
 }
 
-proc string formula(float $input[], float $output, int $opperation)
+global proc ShownText(string $value)
 {
-    int $amount = size($input);
-    string $equation = $input[0];
-    if($opperation == 0)
-    {
-        for($i = 1; $i < $amount; $i++)
-        {
-            $equation += " + " + $input[$i];
-        }
-        $equation += " = " + $output + "\n";
-    }
-
-    else if ($opperation == 1)
-    {
-        for($i = 1; $i < $amount; $i++)
-        {
-            $equation += " - " + $input[$i];
-        }
-        $equation += " = " + $output + "\n";
-    }
-
-    else if ($opperation == 2)
-    {
-        for($i = 1; $i < $amount; $i++)
-        {
-            $equation += " / " + $input[$i];
-        }
-        $equation += " = " + $output + "\n";
-    }
-
-    else if ($opperation == 3)
-    {
-        for($i = 1; $i < $amount; $i++)
-        {
-            $equation += " * " + $input[$i];
-        }
-        $equation += " = " + $output + "\n";
-    }
-
-    else if($opperation == 5)
-    {
-        $equation = "The mean of " + $input[0];
-        for($i = 1; $i < $amount - 1; $i++)
-        {
-            $equation += ", " + $input[$i];
-        }
-        $equation += " and " + $input[$amount - 1] + " is " + $output + "!\n";
-    }
-
-    else if ($opperation == 6)
-    {
-        $equation = "The median of " + $input[0];
-        for($i = 1; $i < $amount - 1; $i++)
-        {
-            $equation += ", " + $input[$i];
-        }
-        $equation += " and " + $input[$amount - 1] + " is " + $output + "!\n";
-    }
-    return ($equation);
+    string $textField = `optionVar -q "ftNameField"`;
+    string $text;
+    $text = `textField -q -text $textField`;
+    textField -edit -text ($text + $value) $textField;
 }
 
-proc calculator(float $input[], int $exponent, int $opperation)
+global proc FunctionSwitch(int $input)
 {
-    float $output;
-    if($opperation == 0)
+    global int $otherOperations;
+    if($input == 0)
     {
-        $output = add($input);
-        print (formula($input, $output, $opperation));
+        $otherOperations = 0;
+        ShownText("^");
+    }
+    else if($input == 1)
+    {
+        $otherOperations = 1;
+        ShownText(" ");
+    }
+    else if($input == 2)
+    {
+        $otherOperations = 2;
+        ShownText(" ");
     }
 
-    else if($opperation == 1)
-    {
-        $output = subtract($input);
-        print (formula($input, $output, $opperation));
-    }
+}
 
-    else if($opperation == 2)
+global proc Evaluate()
+{
+    global int $otherOperations;
+    string $textField = `optionVar -q "ftNameField"`;
+    string $text;
+    $text = `textField -q -text $textField`;
+    float $result = 0;
+    if($otherOperations == 0)
     {
-        $output = divide($input);
-        print (formula($input, $output, $opperation));
+        string $array[];
+        tokenize $text "^" $array;
+        float $base = $array[0];
+        int $expo = $array[1];
+        $result = power($base, $expo);
+        textField -edit -text $result $textField;
     }
-    
-    else if($opperation == 3)
+    else if($otherOperations == 1)
     {
-        $output = multiply($input);
-        print (formula($input, $output, $opperation));
-    }
-
-    else if($opperation == 4)
-    {
+        string $array[];
+        float $array2[];
+        tokenize $text " " $array;
+        for ($i = 0; $i < size($array); $i++)
+        {
+            float $convert = $array[$i];
+            $array2[$i] = $convert;
+        }
+        $result = mean($array2);
+        textField -edit -text $result $textField;
         
-        print($input[0] + " raised to the " + $exponent + " power is " + power($input, $exponent) +"!\n");
     }
-
-    else if($opperation == 5)
+    else if($otherOperations == 2)
     {
-        $output = mean($input);
-        print (formula($input, $output, $opperation));
+        string $array[];
+        float $array2[];
+        tokenize $text " " $array;
+        for ($i = 0; $i < size($array); $i++)
+        {
+            float $convert = $array[$i];
+            $array2[$i] = $convert;
+        }
+        $result = median($array2);
+        textField -edit -text $result $textField;
     }
-
-    else if($opperation == 6)
+    else
     {
-        $output = median($input);
-        print (formula($input, $output, $opperation));
-    }
-
-    else 
-    {
-        print("You have input an invalid opperation. Please try again. \n 0 = addition \n 1 = subtraction \n 2 = division \n 3 = mulitiplication \n 4 = powers \n 5 = mean \n 6 = median \n");
+        $result = eval("$result = " + $text);
+        textField -edit -text $result $textField;
     }
 }
-//calculator({8,3,7,5,4,9},3,6);
 
-global string $mWindow = `window -title "Calculator" -widthHeight 300 400;
-global string $mcolumn = `columnLayout - parent $mWindow-adjustableColumn 1`;
-optionVar -stringValue "ftNameField" `textField -parent $mColumn -placeHolderText "0"`;
-optionVar -stringValue 
+global proc Clear()
+{
+    string $textField = `optionVar -q "ftNameField"`;
+    string $text;
+    $text = " ";
+    textField -edit -text $text $textField;
+}
+
+global proc CalculatorUI()
+{
+    string $mWindow;
+    string $mColumn;
+    string $column1;
+    string $column2;
+    string $column3;
+    string $column4;
+    string $row1;
+    if (`window -exists $mWindow`)
+    {
+        deleteUI $mWindow;
+    }
+
+    $mWindow = `window -title "Calculator" -widthHeight 310 400`;
+    $mColumn = `columnLayout -parent $mWindow -adjustableColumn 1`;
+    optionVar -stringValue "ftNameField" `textField -editable 0`;
+    $row1 = `rowLayout -numberOfColumns 4 -parent $mColumn -adjustableColumn4 1`;
+        $column1 = `columnLayout -p $row1 -adjustableColumn 1 -width 75`;
+            button -label "exponent" -command "FunctionSwitch(0)";
+            button -label "1" -command "ShownText(1)" -p $column1;
+            button -label "4" -command "ShownText(4)" -p $column1;
+            button -label "7" -command "ShownText(7)" -p $column1;
+            button -label "." -command "ShownText(\".\")" -p $column1;
+        $column2 = `columnLayout -p $row1 -adjustableColumn 1 -width 75`;
+            button -label "mean" -command "FunctionSwitch(1)";
+            button -label "2" -command "ShownText(2)" -p $column2;
+            button -label "5" -command "ShownText(5)" -p $column2;
+            button -label "8" -command "ShownText(8)" -p $column2;
+            button -label "0" -command "ShownText(0)" -p $column2;
+        $column3 = `columnLayout -p $row1 -adjustableColumn 1 -width 75`;
+            button -label "median" -command "FunctionSwitch(2)" -p $column3;
+            button -label "3" -command "ShownText(3)" -p $column3;
+            button -label "6" -command "ShownText(6)" -p $column3;
+            button -label "9" -command "ShownText(9)" -p $column3;
+            button -label "=" -command "Evaluate()" -p $column3;
+        $column4 = `columnLayout -p $row1 -adjustableColumn 1 -width 75`;
+            button -label "clear" -command "Clear()" -p $column4;
+            button -label "+" -command "ShownText(\" + \")" -p $column4;
+            button -label "-" -command "ShownText(\" - \")" -p $column4;
+            button -label "*" -command "ShownText(\" * \")" -p $column4;
+            button -label "/" -command "ShownText(\" / \")" -p $column4;
+            
+    showWindow $mWindow;
+}
+CalculatorUI();

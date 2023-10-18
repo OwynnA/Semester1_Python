@@ -1,0 +1,26 @@
+proc ChangeColor(int $color)
+{
+    //get selection
+    string $sels[] = `ls -selection`;
+    if(size($sels) == 0)
+    {
+        error("select object before running ChangeColor().");
+    }
+    
+    if($color < 0 || $color > 31)
+    {
+        $color = 0;
+        warning("color argument must be within 0 and 31. Value set to default of 0");
+    }
+
+    for($i = 0; $i < size($sels); $i++)
+    {
+        string $shapes[] = `listRelatives -shapes $sels[$i]`;
+        for($shape in $shapes)
+        {
+            setAttr($shape +".overrideEnabled") 1;
+            setAttr($shape + ".overrideColor") $color;
+        }
+    }
+}
+ChangeColor(16);
