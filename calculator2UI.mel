@@ -93,6 +93,7 @@ global proc Evaluate()
         int $expo = $array[1];
         $result = power($base, $expo);
         textField -edit -text $result $textField;
+        $otherOperations = 5;
     }
     else if($otherOperations == 1)
     {
@@ -106,6 +107,7 @@ global proc Evaluate()
         }
         $result = mean($array2);
         textField -edit -text $result $textField;
+        $otherOperations = 5;
         
     }
     else if($otherOperations == 2)
@@ -120,6 +122,7 @@ global proc Evaluate()
         }
         $result = median($array2);
         textField -edit -text $result $textField;
+        $otherOperations = 5;
     }
     else
     {
@@ -130,10 +133,12 @@ global proc Evaluate()
 
 global proc Clear()
 {
+    global int $otherOperations;
     string $textField = `optionVar -q "ftNameField"`;
     string $text;
     $text = " ";
     textField -edit -text $text $textField;
+    $otherOperations = 5;
 }
 
 global proc CalculatorUI()
