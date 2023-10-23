@@ -18,9 +18,9 @@ proc ChangeColor(int $color)
         string $shapes[] = `listRelatives -shapes $sels[$i]`;
         for($shape in $shapes)
         {
-            setAttr($shape +".overrideEnabled") 1;
+            setAttr($shape + ".overrideEnabled") 1;
             setAttr($shape + ".overrideColor") $color;
         }
     }
 }
-ChangeColor(16);
+ChangeColor(6);
