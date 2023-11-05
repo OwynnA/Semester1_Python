@@ -53,8 +53,8 @@ global proc ShownText(string $value)
 {
     string $textField = `optionVar -q "ftNameField"`;
     string $text;
-    $text = `textField -q -text $textField`;
-    textField -edit -text ($text + $value) $textField;
+    $text = `floatField -q -value $textField`;
+    floatField -edit -value ($text + $value) $textField;
 }
 
 global proc FunctionSwitch(int $input)
@@ -83,7 +83,7 @@ global proc Evaluate()
     global int $otherOperations;
     string $textField = `optionVar -q "ftNameField"`;
     string $text;
-    $text = `textField -q -text $textField`;
+    $text = `floatField -q -value $textField`;
     float $result = 0;
     if($otherOperations == 0)
     {
@@ -92,7 +92,7 @@ global proc Evaluate()
         float $base = $array[0];
         int $expo = $array[1];
         $result = power($base, $expo);
-        textField -edit -text $result $textField;
+        floatField -edit -value $result $textField;
         $otherOperations = 5;
     }
     else if($otherOperations == 1)
@@ -106,7 +106,7 @@ global proc Evaluate()
             $array2[$i] = $convert;
         }
         $result = mean($array2);
-        textField -edit -text $result $textField;
+        floatField -edit -value $result $textField;
         $otherOperations = 5;
         
     }
@@ -121,13 +121,13 @@ global proc Evaluate()
             $array2[$i] = $convert;
         }
         $result = median($array2);
-        textField -edit -text $result $textField;
+        floatField -edit -value $result $textField;
         $otherOperations = 5;
     }
     else
     {
         $result = eval("$result = " + $text);
-        textField -edit -text $result $textField;
+        floatField -edit -value $result $textField;
     }
 }
 
@@ -137,7 +137,7 @@ global proc Clear()
     string $textField = `optionVar -q "ftNameField"`;
     string $text;
     $text = " ";
-    textField -edit -text $text $textField;
+    floatField -edit -value $text $textField;
     $otherOperations = 5;
 }
 
@@ -157,7 +157,7 @@ global proc CalculatorUI()
 
     $mWindow = `window -title "Calculator" -widthHeight 310 400`;
     $mColumn = `columnLayout -parent $mWindow -adjustableColumn 1`;
-    optionVar -stringValue "ftNameField" `textField -editable 0`;
+    optionVar -stringValue "ftNameField" `floatField -editable 0`;
     $row1 = `rowLayout -numberOfColumns 4 -parent $mColumn -adjustableColumn4 1`;
         $column1 = `columnLayout -p $row1 -adjustableColumn 1 -width 75`;
             button -label "exponent" -command "FunctionSwitch(0)";
