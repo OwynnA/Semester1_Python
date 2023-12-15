@@ -116,3 +116,60 @@ color_change_ui()
 #29 dark light blue 0
 #30 purple 0
 #31 dark pink
+
+def scatterUI ():
+    mWindow = "ScatterWindow"
+    if cmds.window(mWindow, exists = True):
+        cmds.deleteUI(mWindow)
+
+    cmds.window(mWindow, title = "Scatter", widthHeight = (500, 300))
+    mColumn = cmds.columnLayout(adjustableColumn = True)
+
+    cmds.textField(text = "X range", editable = False)
+    row1 = cmds.rowLayout(numberofColumns = 4, adjustableColumn = 4, parent = mColumn)
+    column1 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column2 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column3 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column4 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+
+    cmds.textField(text = "Min", editable = False, parent = columnn1)
+    cmds.floatField("xMin",editable = True, query = True, parent = column2)
+    cmds.textField(text = "Max", editable = False, parent = column3)
+    cmds.floatField("xMax",editable=True, query = True, parent=column4)
+
+    cmds.textField(text="", editable=False, p=mColumn)
+    cmds.textField(text="Y range", editable=False, p=mColumn)
+    row1 = cmds.rowLayout(numberofColumns=4, adjustableColumn=4, parent=mColumn)
+    column5 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column6 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column7 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column8 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+
+    cmds.textField(text="Min", editable=False, parent=columnn5)
+    cmds.floatField("yMin",editable=True, query = True, parent=column6)
+    cmds.textField(text="Max", editable=False, parent=column7)
+    cmds.floatField("yMax",editable=True, query = True, parent=column8)
+
+    cmds.textField(text="", editable=False, p=mColumn)
+    cmds.textField(text="Z range", editable=False)
+    row1 = cmds.rowLayout(numberofColumns=4, adjustableColumn=4, parent=mColumn)
+    column9 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column10 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column11 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+    column12 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
+
+    cmds.textField(text="Min", editable=False, parent=columnn9)
+    cmds.floatField("zMin", editable=True, query = True, parent=column10)
+    cmds.textField(text="Max", editable=False, parent=column11)
+    cmds.floatField("zMax", editable=True, query = True, parent=column12)
+
+    xMin = float(cmds.floatField(query = "xMin"))
+    xMax = float(cmds.floatField(query = "xMax"))
+    yMin = float(cmds.floatField(query = "yMin"))
+    yMax = float(cmds.floatField(query = "yMax"))
+    zMin = float(cmds.floatField(query = "zMin"))
+    zMax = float(cmds.floatField(query = "zMax"))
+
+    cmds.button(label = "Everybody Scatter!", p = mColumn, command = lambda x: scatter(xMin, xMax, yMin, yMax, zMin, zMax))
+
+    cmds.showWindow(mWindow)
