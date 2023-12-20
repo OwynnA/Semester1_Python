@@ -1,5 +1,4 @@
 import maya.cmds as cmds
-import random
 
 def scatter(duplicate, xMin, xMax, yMin, yMax, zMin, zMax):
     sels = cmds.ls (sl = True)

@@ -86,90 +86,33 @@ color_change_ui()
 #neutral: 1, 2, 3, 16, 5, 19, 11
 #neon: 13, 17, 14, 6
 #rainbow: 4, 12, 10, 24, 21, 25, 26, 27, 23, 7, 28, 18, 29, 15, 30, 8, 20, 31, 9
-#1 black 0
-#2 gray 0
-#3 light gray 0
-#4 dark red 0
-#5 also default 0
-#6 ethereal blue 0
-#7 forest green 0
-#8 dark purple 0
+#1 black
+#2 gray
+#3 light gray
+#4 dark red
+#5 also default
+#6 ethereal blue
+#7 forest green
+#8 dark purple
 #9 dark hot pink
-#10 burnt orange 0
-#11 dark brown 0
-#12 orange red 0
-#13 neon red 0
-#14 neon green 0
-#15 medium blue 0
-#16 white 0
-#17 yellow 0
-#18 light blue 0
-#19 selection green 0
+#10 burnt orange
+#11 dark brown
+#12 orange red
+#13 neon red
+#14 neon green
+#15 medium blue
+#16 white
+#17 yellow
+#18 light blue
+#19 selection green
 #20 peach pink
-#21 orange 0
-#23 light dark green 0
-#24 light burnt orange 0
-#25 dark yellow 0
-#26 dark light green 0
-#27 green 0
-#28 teal 0
-#29 dark light blue 0
-#30 purple 0
+#21 orange
+#23 light dark green
+#24 light burnt orange
+#25 dark yellow
+#26 dark light green
+#27 green
+#28 teal
+#29 dark light blue
+#30 purple
 #31 dark pink
-
-def scatterUI ():
-    mWindow = "ScatterWindow"
-    if cmds.window(mWindow, exists = True):
-        cmds.deleteUI(mWindow)
-
-    cmds.window(mWindow, title = "Scatter", widthHeight = (500, 300))
-    mColumn = cmds.columnLayout(adjustableColumn = True)
-
-    cmds.textField(text = "X range", editable = False)
-    row1 = cmds.rowLayout(numberofColumns = 4, adjustableColumn = 4, parent = mColumn)
-    column1 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column2 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column3 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column4 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-
-    cmds.textField(text = "Min", editable = False, parent = columnn1)
-    cmds.floatField("xMin",editable = True, query = True, parent = column2)
-    cmds.textField(text = "Max", editable = False, parent = column3)
-    cmds.floatField("xMax",editable=True, query = True, parent=column4)
-
-    cmds.textField(text="", editable=False, p=mColumn)
-    cmds.textField(text="Y range", editable=False, p=mColumn)
-    row1 = cmds.rowLayout(numberofColumns=4, adjustableColumn=4, parent=mColumn)
-    column5 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column6 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column7 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column8 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-
-    cmds.textField(text="Min", editable=False, parent=columnn5)
-    cmds.floatField("yMin",editable=True, query = True, parent=column6)
-    cmds.textField(text="Max", editable=False, parent=column7)
-    cmds.floatField("yMax",editable=True, query = True, parent=column8)
-
-    cmds.textField(text="", editable=False, p=mColumn)
-    cmds.textField(text="Z range", editable=False)
-    row1 = cmds.rowLayout(numberofColumns=4, adjustableColumn=4, parent=mColumn)
-    column9 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column10 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column11 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-    column12 = cmds.columnLayout(p=row1, adjustableColumn=True, width=110)
-
-    cmds.textField(text="Min", editable=False, parent=columnn9)
-    cmds.floatField("zMin", editable=True, query = True, parent=column10)
-    cmds.textField(text="Max", editable=False, parent=column11)
-    cmds.floatField("zMax", editable=True, query = True, parent=column12)
-
-    xMin = float(cmds.floatField(query = "xMin"))
-    xMax = float(cmds.floatField(query = "xMax"))
-    yMin = float(cmds.floatField(query = "yMin"))
-    yMax = float(cmds.floatField(query = "yMax"))
-    zMin = float(cmds.floatField(query = "zMin"))
-    zMax = float(cmds.floatField(query = "zMax"))
-
-    cmds.button(label = "Everybody Scatter!", p = mColumn, command = lambda x: scatter(xMin, xMax, yMin, yMax, zMin, zMax))
-
-    cmds.showWindow(mWindow)
